@@ -1,4 +1,6 @@
 player Pl = new player();
+int displayFuel;
+
 
 void setup(){
   size(1920, 1080);
@@ -6,10 +8,7 @@ void setup(){
 }
 
 void drawBullet(){
-  bullet Bullet = new bullet(Pl.x,Pl.y);
-  Bullet.drawBullet();
-  print("Ciao");
-  delay(30);
+
 }
 
 void draw(){
@@ -23,6 +22,8 @@ if(!keyPressed || (keyPressed && key == 'A' || keyPressed && key == 'D' || keyPr
   }
   Pl.y += 5;
 }
+thread("drawBullet");
+displayFuel = (int)Pl.fuel;
 Pl.drawfuel();
 Pl.Player.resize(140,140);
 Pl.drawPlayer();
@@ -35,7 +36,7 @@ if(Pl.fuel > 100){
 }
 if(Pl.jetPackCharged == true){
 fill(255);
-text(Pl.fuel + "%", 50, 900);
+text(displayFuel + "%", 50, 900);
 }
 else{
 fill(255);

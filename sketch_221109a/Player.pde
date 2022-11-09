@@ -108,9 +108,9 @@ class player{
     if(keyPressed && key == ' '){
       stroke(255);
       fill(255);
-      //thread("drawBullet");
-      drawBullet();
-      
+      bullet Bullet = new bullet(Pl.x,Pl.y);
+      Bullet.moveBullet(Bullet);
+      delay(500);
       }
 
     if(keyPressed && (key == 'W' || key == 'w') && y>10){

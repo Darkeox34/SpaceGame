@@ -1,4 +1,5 @@
 player Pl = new player();
+int frameCounter = 0;
 int displayFuel;
 
 
@@ -7,8 +8,10 @@ void setup(){
   Pl.imageLoad();
 }
 
-void drawBullet(){
-
+void shoot(){
+  
+  Pl.shoot();
+  delay(400);
 }
 
 void draw(){
@@ -22,7 +25,7 @@ if(!keyPressed || (keyPressed && key == 'A' || keyPressed && key == 'D' || keyPr
   }
   Pl.y += 5;
 }
-thread("drawBullet");
+//thread("drawBullet");
 displayFuel = (int)Pl.fuel;
 Pl.drawfuel();
 Pl.Player.resize(140,140);

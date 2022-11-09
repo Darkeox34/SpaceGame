@@ -11,13 +11,16 @@ class player{
   PImage PlayerAnim2;
   PImage FlagAnim1;
   PImage FlagAnim2;
-  
   int q = 0;
   boolean q1 = false;
-  
+  boolean keyIsReleased = true;
   bullet b;
   
   ArrayList<bullet> bs = new ArrayList<bullet>();
+  
+  void keyReleased() {
+    keyIsReleased = true;
+  }
   
   void shoot(){
       bs.add(new bullet(x,y));
@@ -118,8 +121,12 @@ class player{
   
 
       if(keyPressed && key == ' '){
-        Pl.shoot();
-        delay(200);
+        {
+          if(keyIsReleased){
+            thread("shoot");
+            keyIsReleased = false;
+          }
+        }
       }
 
     if(keyPressed && (key == 'W' || key == 'w') && y>10){

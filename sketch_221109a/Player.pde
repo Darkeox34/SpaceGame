@@ -1,9 +1,10 @@
 class player{
   int x = 80, y = 645;
   int lifes = 3;
-  float stamina = 100;
+  float fuel = 100;
   boolean moving = false;
   boolean jumping = false;
+  boolean jetPackCharged = true;
   PImage Player;
   PImage PlayerStill;
   PImage PlayerAnim1;
@@ -22,6 +23,12 @@ class player{
     else{
        Player = FlagAnim2;
        q1=!q1;
+    }
+  }
+  
+  void checkJetpack(){
+    if(fuel > 35){
+      jetPackCharged = true;
     }
   }
   
@@ -53,9 +60,9 @@ class player{
      image(Player, x, y);
    }
   
-   void drawStamina(){
+   void drawfuel(){
      fill(250,242,8);
-     rect(50, 910, 3 * stamina, 20);
+     rect(50, 910, 3 * fuel, 20);
    }
   
    void imageLoad(){
@@ -67,15 +74,15 @@ class player{
     this.Player = this.PlayerAnim1;
   }
   
-  void staminaRegen(){
-    if(stamina < 100.0){
-        stamina+= 0.8;
+  void fuelRegen(){
+    if(fuel < 100.0){
+        fuel+= 0.4;
 }
   }
   
   void checkDownBarrier(){
-  if(y >= 645){
-    y = 645;
+  if(y > 639){
+    y = 638;
     jumping = false;
     }
   }
@@ -107,39 +114,39 @@ class player{
       }
 
     if(keyPressed && (key == 'W' || key == 'w') && y>10){
+      if(fuel > 4 && jetPackCharged){
       movingAnimation();
-      if(stamina > 4){
       jumping = true;
       y-=7;
-      stamina -= 2;
+      fuel -= 2.2;
       delay(20);
       }
-      else
-        y*= 1.009;
+      else{
+        jetPackCharged = false;
+        if(y < 638){
+        y*= 1.018;
+        println("Down");
+        }
       }
-    else
-      y*=1.0025;
+    }
  
     if(keyPressed && (key == 'E' || key == 'e') && y>0){
       movingAnimation();
       jumping = true;
       y-=3;
       x+=4;
-      stamina -= 0.12;
+      fuel -= 2.5;
       delay(20);
       }
-    else
-      y*=1.0025;
+  
   
     if(keyPressed && (key == 'Q' || key == 'q') && y>0){
       movingAnimation();
       jumping = true;
       y-=3;
       x-=4;
-      stamina -= 0.12;
+      fuel -= 2.5;
       delay(20);
     }
-    else
-      y*=1.0025;
-      }
+  }
 };

@@ -15,6 +15,14 @@ class player{
   int q = 0;
   boolean q1 = false;
   
+  bullet b;
+  
+  ArrayList<bullet> bs = new ArrayList<bullet>();
+  
+  void shoot(){
+      bs.add(new bullet(x,y));
+  }
+  
   void stillAnimation(){
     if(q1){
        Player = FlagAnim1;
@@ -88,6 +96,9 @@ class player{
   }
   
   void actions(){
+      for(bullet b:bs){
+        b.display();
+      }
     if(keyPressed && (key == 'D' || key == 'd')){
       moving = true;
       x+=3;
@@ -105,12 +116,10 @@ class player{
       }
     }
   
-    if(keyPressed && key == ' '){
-      stroke(255);
-      fill(255);
-      bullet Bullet = new bullet(Pl.x,Pl.y);
-      Bullet.moveBullet(Bullet);
-      delay(500);
+
+      if(keyPressed && key == ' '){
+        Pl.shoot();
+        delay(200);
       }
 
     if(keyPressed && (key == 'W' || key == 'w') && y>10){
@@ -131,6 +140,7 @@ class player{
     }
  
     if(keyPressed && (key == 'E' || key == 'e') && y>0){
+      if(fuel > 4 && jetPackCharged){
       movingAnimation();
       jumping = true;
       y-=3;
@@ -138,15 +148,31 @@ class player{
       fuel -= 2.5;
       delay(20);
       }
+      else{
+        jetPackCharged = false;
+        if(y < 638){
+          y*=1.018;
+        }
+      }
+      }
   
   
     if(keyPressed && (key == 'Q' || key == 'q') && y>0){
+      if(fuel > 4 && jetPackCharged){
       movingAnimation();
       jumping = true;
       y-=3;
       x-=4;
       fuel -= 2.5;
       delay(20);
+      }
+      else{
+        jetPackCharged = false;
+        if(y < 638){
+          y*=1.018;
+        }
+      }
+
     }
   }
 };

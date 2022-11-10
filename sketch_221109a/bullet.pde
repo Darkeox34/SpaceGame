@@ -5,12 +5,13 @@ class bullet{
     this.x = x;
     this.y = y;
   }
-  
+ 
+  float getX(){ return x;}
  
   void body(){ //Draw del proiettile
     imageMode(CENTER);
     Bullet.resize(30,30);
-    image(Bullet,x+50,y-5);
+    image(Bullet,x+65,y-8);
   }
   
   void bodyLeft(){

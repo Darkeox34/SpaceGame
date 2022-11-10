@@ -4,10 +4,8 @@ int frameCounter = 0; //Un contatore che verrà utilizzato per contare il numero
   boolean aPressed = false;
   boolean dPressed = false;
   boolean wPressed = false;
-  boolean ePressed = false;
-  boolean qPressed = false;
   boolean spacePressed = false;
-  
+
 void keyPressed(){
   if(key == 'a')
     aPressed = true;
@@ -15,10 +13,6 @@ void keyPressed(){
     dPressed = true;
   if(key == 'w')
     wPressed = true;
-  if(key == 'q')
-    qPressed = true;
-  if(key == 'e')
-    ePressed = true;
   if(key == ' ')
     spacePressed = true;
 }
@@ -30,24 +24,44 @@ void keyReleased(){
     dPressed = false;
   if(key == 'w')
     wPressed = false;
-  if(key == 'q')
-    qPressed = false;
-  if(key == 'e')
-    ePressed = false;
   if(key == ' ')
     spacePressed = false;
 }
 
+void gravity(){
+  if(Pl.y < 638)
+    Pl.y += 5; //Incremento della Y per simulare la gravità
+}
 
-void shoot(){ //Funzione ridichiarata all'interno del main per essere eseguita in un altro thread
+void fly(){
+  if(wPressed){
+if(Pl.fuel > 4 && Pl.jetPackCharged){    
+      Pl.movingAnimation(); //Viene eseguita l'animazione del movimento
+      Pl.jumping = true; //Viene assegnato true alla variabile jumping per riconoscere quando un giocatore è in volo
+      Pl.fuel -= 1.5; //Viene decrementato il fuel in modo graduale    
+      Pl.y-=9;
+  }
+  else
+    Pl.jetPackCharged = false;
+  }
+}
+
+void shootRight(){ //Funzione ridichiarata all'interno del main per essere eseguita in un altro thread
   frameCounter = 0;
-  Pl.shoot();
+  Pl.shootRight();
+  delay(400);
+}
+
+void shootLeft(){
+  frameCounter = 0;
+  Pl.shootLeft();
   delay(400);
 }
 
 void setup(){
   size(1920, 1080); //Viene impostata la dimensione della canvas a 1920x1080
   Pl.imageLoad(); //Vengono assegnate alle PImage le corrispondenti immagini tramite il loro path
+  //Pl.b.ImageLoad();
 }
 
 void draw(){
@@ -56,12 +70,18 @@ stroke(255);
 line(0, 700, width, 700);
 fill(58, 63, 99);
 if(!keyPressed || (keyPressed && key == 'A' || keyPressed && key == 'D' || keyPressed && key == 'a' || keyPressed && key == 'd')){ //Se non vengono premuti tasti o se vengono premuti i tasti per effettuare il movimento
-  if(frameCount % 10 == 0){ //Ogni 10 frame effettuo l'animazione della bandiera
-    Pl.stillAnimation();
-  }
-  Pl.y += 5; //Incremento della Y per simulare la gravità
+    if(frameCount % 10 == 0){ //Ogni 10 frame effettuo l'animazione della bandiera
+      if(Pl.turnedRight){
+        Pl.stillAnimation();
+        println(Pl.jumping);
+      }
+      else{
+        Pl.stillLeftAnimation();
+      }
+    }
 }
-
+thread("gravity");
+thread("fly");
 displayFuel = (int)Pl.fuel; //Assegno ad un intero il varole a virgola mobile del fuel tramite un cast (int)
 Pl.drawfuel(); //Stampo nella canvas l'indicatore del fuel
 Pl.Player.resize(140,140); //Viene ridimensionata la dimensione del giocatore

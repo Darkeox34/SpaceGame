@@ -78,11 +78,11 @@ class player {
 
 
   void shootRight() { //Aggiunge un nuovo oggetto bullet all'arraylist
-    bsR.add(new bullet(x, y));
+    bsR.add(new bullet(x, y,"Player"));
   }
 
   void shootLeft() {
-    bsL.add(new bullet(x, y));
+    bsL.add(new bullet(x, y, "Player"));
   }
 
   void movingAnimation() { //Animazione del movimento

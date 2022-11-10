@@ -1,4 +1,9 @@
+int x = 1600;
+int y = 645;
+
 player Pl = new player(); //Creo un oggetto Pl che conterrà tutti i metodi ed istanze che permetteranno la giocabilità del Giocatore
+ominocarretto Omino = new ominocarretto(x,y);
+
 int displayFuel; //Variabile di appoggio per stampare la quantità di fuel rimasta
 int frameCounter = 0; //Un contatore che verrà utilizzato per contare il numero di frame
 boolean aPressed = false;
@@ -95,6 +100,10 @@ void shootLeft() {
   delay(400);
 }
 
+void OminoShoot(){
+  Omino.ominoActionShoot();
+}
+
 void spawnRobot(){
 }
 
@@ -104,6 +113,7 @@ void setup() {
   //Robot.ImageLoad();
   //Toro.ImageLoad();
   //Uccello.ImageLoad();
+  Omino.ImageLoad();
 }
 
 void draw() {
@@ -111,6 +121,7 @@ void draw() {
   stroke(255);
   line(0, 700, width, 700);
   fill(58, 63, 99);
+  thread("OminoShoot");
   Pl.drawPlayer(); //Viene stampato nella canvas il giocatore
   if (!keyPressed || (keyPressed && key == 'A' || keyPressed && key == 'D' || keyPressed && key == 'a' || keyPressed && key == 'd')) { //Se non vengono premuti tasti o se vengono premuti i tasti per effettuare il movimento
     if (frameCount % 10 == 0) { //Ogni 10 frame effettuo l'animazione della bandiera
@@ -124,8 +135,8 @@ void draw() {
   thread("goDown");
   thread("gravity");
   thread("fly");
+  Omino.display();
   displayFuel = (int)Pl.fuel; //Assegno ad un intero il varole a virgola mobile del fuel tramite un cast (int)
-  
   
   Pl.jumpAnimation();
   Pl.jumpReset();

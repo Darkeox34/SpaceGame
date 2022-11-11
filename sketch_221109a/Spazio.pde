@@ -8,14 +8,14 @@ class Spazio{
  PFont testo;
  
  void loadSpace(){
-  this.sfondo=loadImage("Selezione_livello.png");
-  this.livello_terra=loadImage("Livello_terra.png");
+  this.sfondo=loadImage("Resource/Images/selezionelivello/Selezione_livello.png");
+  this.livello_terra=loadImage("Resource/Images/selezionelivello/Livello_terra.png");
   this.livello_terra.resize(livello_terra.height/3,livello_terra.width/3);
-  this.livello_2=loadImage("Livello_2.png");
+  this.livello_2=loadImage("Resource/Images/selezionelivello/Livello_2.png");
   this.livello_2.resize(livello_2.height/3,livello_2.width/3);
-  this.livello_3=loadImage("Livello_3.png");
+  this.livello_3=loadImage("Resource/Images/selezionelivello/Livello_3.png");
   this.livello_3.resize(livello_3.height/3,livello_3.width/3);
-  this.testo=loadFont("data/OCRAExtended-100.vlw");
+  this.testo=loadFont("Resource/data/OCRAExtended-100.vlw");
   textFont(testo,35);
   //textAlign(CENTER);
  }
@@ -32,6 +32,10 @@ class Spazio{
      rect(tx,400,500,100);
      fill(0);
      text("Premere 'Invio' per atterrare sulla Terra",tx+20,420,tx+160,500);
+     if(enterPressed){
+       ifLevel1 = true;
+       isPlayerUsable = true;
+     }
   }
   if (dist(R1.getX(),R1.getY(),ux+livello_2.width/2,600+livello_2.height/2)<180){
      fill(255);
@@ -48,9 +52,9 @@ class Spazio{
      rect(vx,250,600,100);
   }
  }
-  void keyPressed(){
+  void spaceMove(){
     
-  if(R1.getX()<=width/4 && (key=='q' || key== 'a' ||  key=='z')){
+  if(R1.getX()<=width/4 && (qPressed || aPressed ||  zPressed)){
 
     if(h>=0){
       h=0;
@@ -62,7 +66,7 @@ class Spazio{
       vx+=20;
     }
   }
-    if(R1.getX()>=3*width/4 && (key=='e' || key== 'c' ||  key=='d')){
+    if(R1.getX()>=3*width/4 && (ePressed || cPressed ||  dPressed)){
 
       if(h<=-sfondo.width+width)
        h=-sfondo.width+width;

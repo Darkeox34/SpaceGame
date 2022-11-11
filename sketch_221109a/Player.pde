@@ -1,5 +1,5 @@
 class player {
-  int x = 80, y = 645; //Coordinate Giocatore
+  float x = 80, y = 645; //Coordinate Giocatore
   int lifes = 3; //Vite Player
   int qR = 0; //Switch per i frame dell'animazione del movimento verso destra
   int qL = 0; //Switch per i frame dell'animazione del movimento verso sinistra
@@ -73,7 +73,7 @@ class player {
 
   void drawfuel() {  //Funzione per stampare nella canvas l'indicatore del fuel
     fill(250, 242, 8);
-    rect(50, 910, 3 * fuel, 20);
+    rect(50, 50, 3 * fuel, 20);
   }
 
 
@@ -164,14 +164,6 @@ class player {
     if (x > 635)
       jumping = false;
   }
-
-  void checkDownBarrier() {  //Se il giocatore prova a superare la barriera del terreno, viene riassegnato al limite del terreno
-    if (y > 638) {
-      y = 638;
-      jumping = false;
-    }
-  }
-
   void actions() { //Funzione che contiene i vari movimenti delle entità quali Proiettili e movimenti vari del giocatore
 
     if (keyIsReleased == false) {
@@ -183,8 +175,6 @@ class player {
 
     for (bullet b : bsR) {  //Questo ciclo viene ripetuto finchè il bullet esiste
       b.display();
-      if (b.getX() > 1920)
-        bsR.remove(bsR);
     }
 
     for (bullet b : bsL) {
@@ -229,5 +219,27 @@ class player {
         }
       }
     }
+   
+   //funzione per far muovere lo schermo va aggiustato con il volo in obliquo
+   if(x>=7*width/8 && keyPressed && (key=='d'||key=='D')){
+      if(l.x<=-l.s.width+width)
+        l.x=-l.s.width+width;
+      else{
+        l.x-=3;
+        x=7*width/8;
+      }
+  }
+  if(x<=width/8 && keyPressed && (key=='a'||key=='a')){
+    if(l.x>=0)
+      l.x=0;
+    else{
+      l.x+=3;
+      x=width/8;
+    }
+  }
+  if(x>=width)
+    x=width;
+  if(x<=0)
+    x=0;
   }
 };

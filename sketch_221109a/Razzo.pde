@@ -12,9 +12,9 @@ class Razzo{
    this.razzo_m2=razzo_m2;
  }
  void loadRazzo(){
-  this.razzo_m1=loadImage("Razzo_m1.png");
+  this.razzo_m1=loadImage("Resource/Images/selezionelivello/Razzo_m1.png");
   this.razzo_m1.resize(razzo_m1.height/6,razzo_m1.width/6);
-  this.razzo_m2=loadImage("Razzo_m2.png");
+  this.razzo_m2=loadImage("Resource/Images/selezionelivello/Razzo_m2.png");
   this.razzo_m2.resize(razzo_m2.height/6,razzo_m2.width/6);
   this.razzo=razzo_m1;
  }
@@ -26,46 +26,46 @@ class Razzo{
    popMatrix();
    moving();
  }
- void keyPressed(){
+ void rocketActions(){
  
-  if(keyPressed  && key=='d'){
+  if(dPressed && !aPressed && !wPressed && !sPressed){
     posx+=10;
    
     angle=PI/2;
     
     
   }
-  if(keyPressed && key=='a'){
+  if(aPressed && !dPressed && !wPressed && !sPressed){
     angle=PI+PI/2;
    
     posx-=10;
   }
-  if(keyPressed  && key=='s'){
+  if(sPressed && !wPressed){
     angle=PI;
     posy+=10;
     
   }
-  if(keyPressed  && key=='w'){
+  if(wPressed && !sPressed){
     posy-=10;
     angle=0;
   }
-  if(keyPressed  && key=='e'){
+  if(ePressed && !wPressed && !dPressed && !aPressed && !sPressed && !qPressed && !zPressed && !cPressed){
     angle=PI/4;
     posx+=10;
     posy-=10;
   }
-  if(keyPressed  && key=='q'){
+  if(qPressed && !ePressed && !wPressed && !dPressed && !aPressed && !sPressed && !zPressed && !cPressed){
     angle=PI+PI*0.75;
     posx-=10;
     posy-=10;
   }
-  if(keyPressed  && key=='z'){
+  if(zPressed && !ePressed && !wPressed && !dPressed && !aPressed && !sPressed && !qPressed && !cPressed){
     posx-=10;
     posy+=10;
     angle=PI+PI*0.25;
    
   }
-  if(keyPressed  && key=='c'){
+  if(cPressed && !ePressed && !wPressed && !dPressed && !aPressed && !sPressed && !qPressed && !zPressed){
     angle=PI*0.75;
     
     posx+=10;

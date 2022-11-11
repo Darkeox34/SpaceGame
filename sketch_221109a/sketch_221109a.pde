@@ -1,45 +1,34 @@
-int x = 1600;
-int y = 645;
+//ALEX
+Razzo R1=new Razzo();
+Spazio S=new Spazio();
+Ostacoli M=new Ostacoli();
+//
 
-player Pl = new player(); //Creo un oggetto Pl che conterrà tutti i metodi ed istanze che permetteranno la giocabilità del Giocatore
-ominocarretto Omino = new ominocarretto(x,y);
 
-int displayFuel; //Variabile di appoggio per stampare la quantità di fuel rimasta
-int frameCounter = 0; //Un contatore che verrà utilizzato per contare il numero di frame
-boolean aPressed = false;
-boolean dPressed = false;
-boolean wPressed = false;
-boolean sPressed = false;
-boolean spacePressed = false;
-
-void keyPressed() {
-  if (key == 'a')
-    aPressed = true;
-  if (key == 's')
-    sPressed = true;
-  if (key == 'd')
-    dPressed = true;
-  if (key == 'w')
-    wPressed = true;
-  if (key == ' ')
-    spacePressed = true;
+void setupAlex(){
+  R1.loadRazzo();
+  S.loadSpace();
+  M.loadOstacoli();
+  M.creadimensioni();
 }
 
-void keyReleased() {
-  if (key == 'a')
-    aPressed = false;
-  if (key == 's')
-    sPressed = false;
-  if (key == 'd')
-    dPressed = false;
-  if (key == 'w')
-    wPressed = false;
-  if (key == ' ')
-    spacePressed = false;
+void drawAlex(){
+  S.drawSpace();
+  R1.drawRazzo();
+  M.drawOstacoli();
 }
 
+//FINE PLAYER
+
+//LEVEL BOOLEAN
+boolean ifLevel1 = false;
+
+
+
+//PLAYER
+boolean isPlayerUsable = false;
+player Pl = new player(); //Creo un oggetto Pl che conterrà tutti i metodi ed istanze che permetteranno la giocabilità del Giocatore  
 void gravity() {
-  if (Pl.y < 638)
     Pl.y += 5; //Incremento della Y per simulare la gravità
 }
 
@@ -99,66 +88,106 @@ void shootLeft() {
   Pl.shootLeft();
   delay(400);
 }
+//FINE PLAYER
 
-void OminoShoot(){
-  Omino.ominoActionShoot();
+
+
+
+//INPUT
+boolean aPressed = false;
+boolean dPressed = false;
+boolean wPressed = false;
+boolean sPressed = false;
+boolean spacePressed = false;
+boolean qPressed = false;
+boolean ePressed = false;
+boolean zPressed = false;
+boolean cPressed = false;
+boolean enterPressed = false;
+boolean escPressed = false;
+
+void keyPressed() {
+  if(keyCode == ESC)
+    escPressed = true;
+  if(keyCode == ENTER)
+    enterPressed = true;
+  if(key == 'q')
+    qPressed = true;
+  if(key == 'e')
+    ePressed = true;
+  if(key == 'z')
+    zPressed = true;
+  if(key == 'c')
+    cPressed = true;
+  if (key == 'a')
+    aPressed = true;
+  if (key == 's')
+    sPressed = true;
+  if (key == 'd')
+    dPressed = true;
+  if (key == 'w')
+    wPressed = true;
+  if (key == ' ')
+    spacePressed = true;
 }
 
-void spawnRobot(){
+void keyReleased() {
+  if(keyCode == ESC)
+    escPressed = false;
+  if(keyCode == ENTER)
+    enterPressed = false;
+  if(key == 'q')
+    qPressed = false;
+  if(key == 'e')
+    ePressed = false;
+  if(key == 'z')
+    zPressed = false;
+  if(key == 'c')
+    cPressed = false;
+  if (key == 'a')
+    aPressed = false;
+  if (key == 's')
+    sPressed = false;
+  if (key == 'd')
+    dPressed = false;
+  if (key == 'w')
+    wPressed = false;
+  if (key == ' ')
+    spacePressed = false;
 }
+//FINE INPUT
+
+
+Livello1 l;
+
+int displayFuel; //Variabile di appoggio per stampare la quantità di fuel rimasta
+int frameCounter = 0; //Un contatore che verrà utilizzato per contare il numero di frame
 
 void setup() {
   size(1920, 1080); //Viene impostata la dimensione della canvas a 1920x1080
   Pl.imageLoad(); //Vengono assegnate alle PImage le corrispondenti immagini tramite il loro path
-  //Robot.ImageLoad();
-  //Toro.ImageLoad();
-  //Uccello.ImageLoad();
-  Omino.ImageLoad();
+  l=new Livello1();
+  setupAlex();
 }
 
 void draw() {
-  background(0);
-  stroke(255);
-  line(0, 700, width, 700);
-  fill(58, 63, 99);
-  thread("OminoShoot");
-  Pl.drawPlayer(); //Viene stampato nella canvas il giocatore
-  if (!keyPressed || (keyPressed && key == 'A' || keyPressed && key == 'D' || keyPressed && key == 'a' || keyPressed && key == 'd')) { //Se non vengono premuti tasti o se vengono premuti i tasti per effettuare il movimento
-    if (frameCount % 10 == 0) { //Ogni 10 frame effettuo l'animazione della bandiera
-      if (Pl.turnedRight) {
-        Pl.stillAnimation();
-      } else {
-        Pl.stillLeftAnimation();
-      }
-    }
+  l.display();
+  if(isPlayerUsable){
+  l.displayFuel();
+  l.drawPlayer();
+  l.playerAction();
   }
+  if(ifLevel1 == false){
+  drawAlex();
+  R1.rocketActions();
+  S.spaceMove();
+  }
+  
+
   thread("goDown");
   thread("gravity");
   thread("fly");
-  Omino.display();
-  displayFuel = (int)Pl.fuel; //Assegno ad un intero il varole a virgola mobile del fuel tramite un cast (int)
-  
-  Pl.jumpAnimation();
-  Pl.jumpReset();
-  Pl.drawfuel(); //Stampo nella canvas l'indicatore del fuel
-  Pl.checkJetpack(); //Viene controllata la capacità rimanente del fuel
-  Pl.fuelRegen(); //Viene rigenerato il fuel gradualmente
-  Pl.checkDownBarrier(); //Viene controllato se il giocatore sta superando la barriera inferiore dell terreno
-  Pl.actions(); //Vengono eseguite tutte le funzioni che permettono la giocabilità del Giocatore
-  if (Pl.fuel > 100) { //Per evitare false rappresentazioni, se il fuel dovesse superare il valore 100, gli viene riassegnato il medesimo valore.
-    Pl.fuel = 100;
-  }
-  if (Pl.jetPackCharged == true) { //Se il jetpack è utilizzabile viene stampato il fuel rimanente
-    fill(255);
-    text(displayFuel + "%", 50, 900);
-  } else { //Altrimenti viene stampato "Recharging" finchè non sarà nuovamente riutilizzabile
-    fill(255);
-    text("Recharging", 50, 900);
-  }
-
 
   if (frameCount % 60 == 0) { //Ogni 60 frame vengono stampate le coordinate ed il fuel rimanente
-    //println("x: " + Pl.x + " y: " + Pl.y + " Stamina: " + Pl.fuel+ "/100");
-    println("Jumping = " + Pl.jumping + " Moving = " + Pl.moving);
   }
 }

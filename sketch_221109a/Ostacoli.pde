@@ -8,9 +8,9 @@ class Ostacoli{
   int wwy=500;
 
  void loadOstacoli(){
-    m1=loadImage("Meteorite.png");
+    m1=loadImage("Resource/Images/selezionelivello/Meteorite.png");
     m1.resize(m1.width/10,m1.height/10);
-    ufo1=loadImage("Ufo.png");
+    ufo1=loadImage("Resource/Images/selezionelivello/Ufo.png");
     ufo1.resize(ufo1.width/10,ufo1.height/10);
    /* m2=loadImage("Meteorite.png");
     m2.resize(m2.width/10,m2.height/10);

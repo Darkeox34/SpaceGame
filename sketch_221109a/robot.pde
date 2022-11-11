@@ -1,23 +1,28 @@
 class robot{
-  int x, y;
-    PImage frame1;
-    PImage frame2; 
-    PImage model;
-  void ImageLoad(){
-    frame1 = loadImage("Resource/Images/robot/robot_frame1.png");
-    frame2 = loadImage("Resource/Images/robot/robot_frame2.png");
-    model = loadImage("Resource/Images/robot/robot_frame2.png");
-  }
-
+  float x, y;
+  float s;
+  int xSpeed = 4;
+  Blocco b;
+    PImage frame1 = loadImage("Resource/Images/robot/robot_frame1.png");
+    PImage frame2 = loadImage("Resource/Images/robot/robot_frame2.png"); 
+    PImage model = loadImage("Resource/Images/robot/robot_frame2.png");
+    
   boolean q = false;
+  boolean v=true;
   
-  robot(int X, int Y){
-    x = X;
-    y = Y;
+  robot(float X, float Y){
+    this.x = X;
+    this.y = Y;
+    s=x;
   }
   
   void move(){
-    x-=4;
+    //println(s);
+    //println(x);
+    x+=xSpeed;
+    if(x<=s-250 || x>=s+400){
+      xSpeed = -xSpeed;
+    }
   }
   void animate(){
     if(frameCount % 10 == 0)
@@ -32,8 +37,11 @@ class robot{
   }
   
   void body(){
+    if(v==false)
+      for(int j=0; j<model.pixels.length; j++)
+        model.pixels[j]=color(0,0,0,0);
     model.resize(100,100);
-    image(model, x,y);
+    image(model, x+l.x,y);
     animate();
   }
   

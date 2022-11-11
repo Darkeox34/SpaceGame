@@ -2,44 +2,22 @@ class ominocarretto{
   
   int frameCounter = 0;
   
-  int x, y;
-    PImage frame1;
-    PImage frame2; 
-    PImage model;
+  float x, y;
+    PImage frame1 = loadImage("Resource/Images/ominocarretto/frame1.png");
+    PImage frame2 = loadImage("Resource/Images/ominocarretto/frame2.png");
+    PImage model = loadImage("Resource/Images/ominocarretto/frame1.png");
     
     boolean q = false;
+    boolean v=true;
     
     ArrayList<bullet> bs = new ArrayList<bullet>();
-    
-    
-  void ImageLoad(){
-    frame1 = loadImage("Resource/Images/ominocarretto/frame1.png");
-    frame2 = loadImage("Resource/Images/ominocarretto/frame2.png");
-    model = loadImage("Resource/Images/ominocarretto/frame1.png");
-  }
-  
-  ominocarretto(int X, int Y){
-    x = X;
-    y = Y;
-  }
-  
-  void newBullet(){
-      bs.add(new bullet(x, y,"red"));
+
+  ominocarretto(float X, float Y){
+    this.x = X;
+    this.y = Y;
   }
   
   
-  void ominoActionShoot(){
-    frameCounter++;
-    if(frameCounter > 70){
-      frameCounter = 0;
-      newBullet();
-    }
-    for (bullet b : bs) {  //Questo ciclo viene ripetuto finchè il bullet esiste
-      b.displayLeft();
-      //if (b.getX() > 1920)
-        //bs.remove(bs);
-    }
-  }
   
   void animate(){
     if(frameCount % 10 == 0)
@@ -54,8 +32,11 @@ class ominocarretto{
   }
   
   void body(){
+    if(v==false)
+      for(int j=0; j<model.pixels.length; j++)
+        model.pixels[j]=color(0,0,0,0);
     model.resize(180,180);
-    image(model, x,y);
+    image(model, x+l.x,y);
     animate();
   }
   

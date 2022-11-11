@@ -31,9 +31,9 @@ class Ostacoli{
  void creadimensioni(){
    for (int i=0;i<6;i++){
      mx[i]=(int)random(2000,6000);
-     print(mx[i]);
+     //print(mx[i]);
      my[i]=(int)random(200,1000);
-     print(my[i]);
+     //print(my[i]);
    }
  
  

@@ -1,35 +1,44 @@
+bullet b; //Creazione dell'oggetto b della classe Bullet
+  ArrayList<bullet> bsR = new ArrayList<bullet>(); //Arraylist di bullet per muoversi verso destra
+  ArrayList<bullet> bsL = new ArrayList<bullet>(); //Arraylist di bullet per muoversi verso sinistra
+  boolean dead = false;
+PImage gameOver;
 //ALEX
 Razzo R1=new Razzo();
 Spazio S=new Spazio();
 Ostacoli M=new Ostacoli();
 //
+robot r;
 
-
-void setupAlex(){
+void setupAlex() {
   R1.loadRazzo();
   S.loadSpace();
   M.loadOstacoli();
   M.creadimensioni();
 }
 
-void drawAlex(){
+void drawAlex() {
   S.drawSpace();
   R1.drawRazzo();
   M.drawOstacoli();
 }
 
-//FINE PLAYER
 
 //LEVEL BOOLEAN
 boolean ifLevel1 = false;
+//END LEVEL BOOLEAN
 
+//OMINO SHOOT
+
+
+//
 
 
 //PLAYER
 boolean isPlayerUsable = false;
-player Pl = new player(); //Creo un oggetto Pl che conterrà tutti i metodi ed istanze che permetteranno la giocabilità del Giocatore  
+player Pl = new player(); //Creo un oggetto Pl che conterrà tutti i metodi ed istanze che permetteranno la giocabilità del Giocatore
 void gravity() {
-    Pl.y += 5; //Incremento della Y per simulare la gravità
+  Pl.y += 5; //Incremento della Y per simulare la gravità
 }
 
 void fly() {
@@ -57,11 +66,11 @@ void fly() {
         }
       }
       Pl.jumping = true; //Viene assegnato true alla variabile jumping per riconoscere quando un giocatore è in volo
-      Pl.fuel -= 1.5; //Viene decrementato il fuel in modo graduale
+      Pl.fuel -= 1.2; //Viene decrementato il fuel in modo graduale
       Pl.y-=9;
     } else {
-      if(frameCount % 10 == 0){
-        if(Pl.turnedLeft)
+      if (frameCount % 10 == 0) {
+        if (Pl.turnedLeft)
           Pl.Player = Pl.LeftPlayerStill;
         else
           Pl.Player = Pl.RightPlayerStill;
@@ -107,17 +116,17 @@ boolean enterPressed = false;
 boolean escPressed = false;
 
 void keyPressed() {
-  if(keyCode == ESC)
+  if (keyCode == ESC)
     escPressed = true;
-  if(keyCode == ENTER)
+  if (keyCode == ENTER)
     enterPressed = true;
-  if(key == 'q')
+  if (key == 'q')
     qPressed = true;
-  if(key == 'e')
+  if (key == 'e')
     ePressed = true;
-  if(key == 'z')
+  if (key == 'z')
     zPressed = true;
-  if(key == 'c')
+  if (key == 'c')
     cPressed = true;
   if (key == 'a')
     aPressed = true;
@@ -132,17 +141,17 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  if(keyCode == ESC)
+  if (keyCode == ESC)
     escPressed = false;
-  if(keyCode == ENTER)
+  if (keyCode == ENTER)
     enterPressed = false;
-  if(key == 'q')
+  if (key == 'q')
     qPressed = false;
-  if(key == 'e')
+  if (key == 'e')
     ePressed = false;
-  if(key == 'z')
+  if (key == 'z')
     zPressed = false;
-  if(key == 'c')
+  if (key == 'c')
     cPressed = false;
   if (key == 'a')
     aPressed = false;
@@ -157,8 +166,13 @@ void keyReleased() {
 }
 //FINE INPUT
 
-
 Livello1 l;
+
+
+void drawGameOver(){
+  gameOver.resize(1920,1080);
+  image(gameOver, 0,0);
+}
 
 int displayFuel; //Variabile di appoggio per stampare la quantità di fuel rimasta
 int frameCounter = 0; //Un contatore che verrà utilizzato per contare il numero di frame
@@ -168,21 +182,34 @@ void setup() {
   Pl.imageLoad(); //Vengono assegnate alle PImage le corrispondenti immagini tramite il loro path
   l=new Livello1();
   setupAlex();
+  gameOver = loadImage("Resource/Images/gameover.png");
 }
 
 void draw() {
-  l.display();
-  if(isPlayerUsable){
-  l.displayFuel();
-  l.drawPlayer();
-  l.playerAction();
+   l.display();
+  if(!dead){
+    if (isPlayerUsable) {
+      l.displayFuel();
+      l.drawHearth();
+      l.drawPlayer();
+      l.playerAction();
+    }
   }
-  if(ifLevel1 == false){
-  drawAlex();
-  R1.rocketActions();
-  S.spaceMove();
+  else{
+    drawGameOver();
+    if(spacePressed){
+      ifLevel1 = false;
+      Pl.lifes = 3;
+      setup();
+    }
   }
-  
+  if (ifLevel1 == false) {
+    dead = false;
+    drawAlex();
+    R1.rocketActions();
+    S.spaceMove();
+  }
+
 
   thread("goDown");
   thread("gravity");

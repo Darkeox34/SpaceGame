@@ -16,31 +16,10 @@ class Blocco{
     else{
       if(Pl.y>=1500){
         Pl.y=height/3;
-                print("printo");
         }
     }
   }
-  
-  boolean getQ(){
-    return q;
-  }
-  
-  void setX(float z){
-    x-=z;
-  }
-  
-  float getX(){
-    return x;
-  }
-  
-  float getY(){
-    return y;
-  }
-  
-  PImage getI(){
-    return i;
-  }
-  
+ 
   void display(){
     collision();
     i.resize(250,87);
@@ -51,5 +30,6 @@ class Blocco{
       for(int j=0; j<i.pixels.length; j++)
         i.pixels[j]=color(0,0,0,0);
     }
+    //line(x+i.width+l.x, height, x+i.width+l.x, 0);
   }
 }

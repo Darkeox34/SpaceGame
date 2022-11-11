@@ -1,4 +1,4 @@
-class toro{
+class toro extends robot{
   int x, y;
     PImage frame1;
     PImage frame2; 
@@ -14,8 +14,7 @@ class toro{
   int q = 0;
   
   toro(int X, int Y){
-    x = X;
-    y = Y;
+    super (X,Y);
   }
   
   void move(){

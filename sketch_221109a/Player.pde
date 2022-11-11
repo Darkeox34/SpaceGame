@@ -4,7 +4,7 @@ class player {
   int qR = 0; //Switch per i frame dell'animazione del movimento verso destra
   int qL = 0; //Switch per i frame dell'animazione del movimento verso sinistra
   float fuel = 100; //Fuel Player
-
+  int shotBullets = 0;
   boolean qR2 = false;
   boolean qL2 = false;
   boolean moving = false; //Se il giocatore si sta muovendo
@@ -37,11 +37,6 @@ class player {
   PImage RightFrameStillFly2;
 
 
-  ArrayList<bullet> bsR = new ArrayList<bullet>(); //Arraylist di bullet per muoversi verso destra
-  ArrayList<bullet> bsL = new ArrayList<bullet>(); //Arraylist di bullet per muoversi verso sinistra
-
-  bullet b; //Creazione dell'oggetto b della classe Bullet
-
   void imageLoad() {  //Funzione assegnare alle PImage le corrispettive immagini
     this.RightPlayerStill = loadImage("Resource/Images/frame1.png");
     this.RightPlayerFrame1 = loadImage("Resource/Images/frame2.png");
@@ -64,10 +59,10 @@ class player {
     this.Player = this.RightPlayerFrame1;
   }
 
+
   void drawPlayer() {  //Funzione per stampare nella canvas il player
     Player.resize(140, 140); //Viene ridimensionata la dimensione del giocatore
-    imageMode(CENTER);
-    image(Player, x, y);
+    image(Player, x, y-75);
   }
 
 
@@ -78,6 +73,7 @@ class player {
 
 
   void shootRight() { //Aggiunge un nuovo oggetto bullet all'arraylist
+    shotBullets++;
     bsR.add(new bullet(x, y,"Player"));
   }
 
@@ -165,7 +161,10 @@ class player {
       jumping = false;
   }
   void actions() { //Funzione che contiene i vari movimenti delle entità quali Proiettili e movimenti vari del giocatore
-
+    
+    if(lifes == 0)
+      dead = true;
+    
     if (keyIsReleased == false) {
       frameCounter++;
       if (frameCounter > 50) {
@@ -185,12 +184,12 @@ class player {
       turnedRight = true;
       turnedLeft = false;
       moving = true; //Se un tasto viene premuto ed il tasto premuto corrisponde a D, il giocatore si muoverà verso destra
-      x+=3; //Incremento della coordinata x per permettere lo spostamento del giocatore verso destra
+      x+=30; //Incremento della coordinata x per permettere lo spostamento del giocatore verso destra
     } else if (aPressed && !dPressed) {
       turnedLeft = true;
       turnedRight = false;
       moving = true;
-      x-=3; //Decremento della coordinata x per permettere lo spostamento del giocatore verso sinistra
+      x-=30; //Decremento della coordinata x per permettere lo spostamento del giocatore verso sinistra
     } else
       moving = false;
 
@@ -220,21 +219,20 @@ class player {
       }
     }
    
-   //funzione per far muovere lo schermo va aggiustato con il volo in obliquo
-   if(x>=7*width/8 && keyPressed && (key=='d'||key=='D')){
+   if((x>=2*width/3 && dPressed) ||(x>=2*width/3 && dPressed && wPressed)){
       if(l.x<=-l.s.width+width)
         l.x=-l.s.width+width;
       else{
-        l.x-=3;
-        x=7*width/8;
+        l.x-=30;
+        x=2*width/3;
       }
   }
-  if(x<=width/8 && keyPressed && (key=='a'||key=='a')){
+  if((x<=width/3 && aPressed) || (x<=width/3 && aPressed && wPressed)){
     if(l.x>=0)
       l.x=0;
     else{
-      l.x+=3;
-      x=width/8;
+      l.x+=30;
+      x=width/3;
     }
   }
   if(x>=width)

@@ -42,7 +42,13 @@ class Spazio{
      strokeJoin(ROUND);
      strokeWeight(5);
      stroke(100);
-     rect(ux,400,600,100);
+     rect(ux,580,600,100);
+     fill(0);
+     text("Premere 'Invio' per atterrare sul pianeta blu",ux+20,590,560,500);
+     if(enterPressed){
+       ifLevel1 = true;
+       isPlayerUsable = true;
+     }
   }
   if (dist(R1.getX(),R1.getY(),vx+livello_2.width/2,250+livello_2.height/2)<240){
      fill(255);
@@ -50,6 +56,12 @@ class Spazio{
      strokeWeight(5);
      stroke(100);
      rect(vx,250,600,100);
+     fill(0);
+     text("Premere 'Invio' per atterrare sul pianeta rosso",vx+20,270,590,500);
+     if(enterPressed){
+       ifLevel1 = true;
+       isPlayerUsable = true;
+     }
   }
  }
   void spaceMove(){

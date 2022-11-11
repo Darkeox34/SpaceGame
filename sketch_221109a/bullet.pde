@@ -1,32 +1,28 @@
 class bullet{
   float x,y; //Vengono dichiarate le coordinate del proiettile
   PImage Bullet = loadImage("Resource/Images/PlayerBullet.png");
-  PImage RedBullet = loadImage("Resource/Images/ominocarretto/redbullet.png");
   PImage model;
   String type;
+  boolean v=true;
   bullet(float x, float y, String s){ //Quando l'oggetto bullet viene inizializzato, il costruttore assegna la posizione del giocatore al proiettile
     this.x = x;
     this.y = y;
     type = s;
     if(type == "Player")
       model = Bullet;
-    else
-      model = RedBullet;
     
   }
  
   float getX(){ return x;}
  
   void body(){ //Draw del proiettile
-    imageMode(CENTER);
-    model.resize(30,30);
-    image(model,x+65,y-8);
+    model.resize(50,50);
+    image(model,x+115,y-42);
   }
   
   void bodyLeft(){
-    imageMode(CENTER);
-    model.resize(30,30);
-    image(model,x-50,y-5);
+    model.resize(50,50);
+    image(model,x-60,y-42);
   }
   
   void move(){ //Movimento del proiettile
@@ -40,11 +36,38 @@ class bullet{
   void display(){ //Viene incrementata la x del proiettile e viene stampato il modello
     body();
     move();
+    for(int i = 0; i < 3; i++){
+    if(dist(x+125,y-5,l.om[i].x+100+l.x,l.om[i].y+50) <=30 && x+125 <= width && v==true){
+      l.om[i].v=false;
+      l.bullet[i].v=false;
+      v=false;
+    }
+    }
+    for(int i = 0; i < 5; i++){
+    if(dist(x+125,y-5,l.r[i].x+70+l.x,l.r[i].y+50) <=30 && x+125 <= width && v==true){
+      l.r[i].v=false;
+      v=false;
+    }
+    }
   }
   
   void displayLeft(){
     bodyLeft();
     moveLeft();
+    for(int i = 0; i < 3; i++){
+    if(dist(x+125,y-5,l.om[i].x+100+l.x,l.om[i].y+50) <=30 && x+125 <= width && v==true){
+      l.om[i].v=false;
+      l.bullet[i].v=false;
+      v=false;
+    }
+    }
+    for(int i = 0; i < 5; i++){
+    if(dist(x+125,y-5,l.r[i].x+70+l.x,l.r[i].y+50) <=30 && x+125 <= width && v==true){
+      l.r[i].v=false;
+      v=false;
+    }
+    }
   }
+
   
 };

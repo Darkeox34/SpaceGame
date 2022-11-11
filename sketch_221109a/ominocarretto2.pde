@@ -23,23 +23,6 @@ class ominocarretto2{
     y = Y;
   }
   
-  void newBullet(){
-      bs.add(new bullet(x, y,"red"));
-  }
-  
-  
-  void ominoActionShoot(){
-    frameCounter++;
-    if(frameCounter > 70){
-      frameCounter = 0;
-      newBullet();
-    }
-    for (bullet b : bs) {  //Questo ciclo viene ripetuto finchè il bullet esiste
-      b.displayLeft();
-      //if (b.getX() > 1920)
-        //bs.remove(bs);
-    }
-  }
   
   void animate(){
     if(frameCount % 10 == 0)
